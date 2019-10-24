@@ -16,6 +16,7 @@ const {
 const {
 	IconButton,
 	Tooltip,
+	Button
 } = wp.components;
 
 /**
@@ -42,10 +43,37 @@ export default registerBlockType(
 				attribute: 'href',
 				selector: 'a',
 			},
+			code: {
+				type: 'string',
+				source: 'code',
+				selector: 'code',
+			},
 		},
 		edit: props => {
-			const { attributes: { url },
+			
+			const { attributes: { url,code },
 				className, isSelected, setAttributes } = props;
+
+			
+			
+			const onChangeURL = ( url ) => {
+				console.log( 'changeURL',url );
+				setAttributes( {url} );
+
+				// 
+				// setAttributes( {url,code:'<this is the code>'} );
+
+			};
+
+
+			const fetchLatestCode = () => {
+				console.log( `getting latest file content for:${url}` );
+				console.log( 'url:',url );
+				setAttributes( {code:`fetched code from ${url} <script>alert('hi');</script>`} );
+			};
+
+			console.log( 'className',className );
+
 			return (
 				<div className={ className }>
 					{ isSelected ? (
@@ -56,15 +84,28 @@ export default registerBlockType(
 								className="blocks-format-toolbar__link-modal-line blocks-format-toolbar__link-modal-line"
 								onSubmit={ event => event.preventDefault() }
 							>
-								<div className="github-file-contents-url-input-container">
+								<div className="github-file-contents-editor-url-input-container">
 									<Tooltip text="Add Link to File in GitHub Repo">
 										{icon}
 									</Tooltip>
 									<URLInput
 										className="url"
 										value={ url }
-										onChange={ url => setAttributes( { url } ) }
+										onChange={ onChangeURL }
 									/>
+								</div>
+								<div className="github-file-contents-editor-code-container">
+									<IconButton
+										icon={icon}
+										label={ __( 'Fetch Latest Code', 'github-file-contents' ) }
+										className={ 'button button-large' }
+										onClick={ fetchLatestCode }
+									>
+										{__( 'Fetch Latest Code', 'github-file-contents' ) }
+									</IconButton>
+									<code>
+										{code || __( ' Add URL and Fetch Code to Populate', 'github-file-contents' ) }
+									</code>
 								</div>
 								<IconButton
 									icon="editor-break"
@@ -72,13 +113,21 @@ export default registerBlockType(
 									type="submit"
 								/>
 							</form>
+							
+							
+							
 						</Fragment>
 
 					) : (
 
-						<p>
-							{url}
-						</p>
+						<div className="github-file-contents-content-container">
+							<div className="github-file-contents-content-file-url-bar">
+								<a href={url}>{url}</a>
+							</div>
+							<code>
+								{code || __( ' Add URL and Fetch Code to Populate', 'github-file-contents' ) }
+							</code>
+						</div>
 
 					)}
 
@@ -86,12 +135,17 @@ export default registerBlockType(
 			);
 		},
 		save: props => {
-			const { attributes: { url } } = props;
+			const { attributes: { url,code } } = props;
 
 			return (
-				<p>
-					{url}
-				</p>
+				<div className="github-file-contents-content-container">
+					<div className="github-file-contents-content-file-url-bar">
+						<a href={url}>{url}</a>
+					</div>
+					<code>
+						{code}
+					</code>
+				</div>
 			);
 		},
 	},
