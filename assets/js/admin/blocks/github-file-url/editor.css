@@ -1,0 +1,8 @@
+.wp-block-github-file-contents-github-file-url svg {
+  width: 20px;
+  height: 20px;
+}
+.github-file-contents-url-input-container {
+  display: flex;
+  justify-content: flex-start;
+}

@@ -21,10 +21,9 @@ function setup() {
 	};
 
 	add_action( 'enqueue_block_assets', $n( 'blocks_scripts' ) );
-  add_action( 'enqueue_block_editor_assets', $n( 'blocks_editor_scripts' ),11, 3 );
-  // add_action( 'init', $n( 'blocks_editor_scripts' ),10, 2 );
+  add_action( 'enqueue_block_editor_assets', $n( 'blocks_editor_scripts' ),10, 2 );
 
-	add_filter( 'block_categories', $n( 'blocks_categories' ), 10, 2 );
+	// add_filter( 'block_categories', $n( 'blocks_categories' ), 10, 2 );
 }
 
 /**
@@ -41,8 +40,7 @@ function blocks_scripts() {
 		GITHUB_FILE_CONTENTS_VERSION,
 		true
   );
- 
-  error_log(GITHUB_FILE_CONTENTS_URL . 'dist/js/blocks.js');
+
 }
 
 
@@ -53,24 +51,20 @@ function blocks_scripts() {
  */
 function blocks_editor_scripts() {
 
-  error_log(GITHUB_FILE_CONTENTS_URL . '/dist/js/blocks-editor.js');
-
-	// wp_enqueue_script(
-	// 	'blocks-editor',
-	// 	GITHUB_FILE_CONTENTS_URL . '/dist/js/blocks-editor.js',
-  //  array( 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components' ),
-	// 	GITHUB_FILE_CONTENTS_VERSION,
-	// 	false
-  // );
+	wp_enqueue_script(
+		'blocks-editor',
+		GITHUB_FILE_CONTENTS_URL . '/dist/js/blocks-editor.js',
+   array( 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components' ),
+		GITHUB_FILE_CONTENTS_VERSION,
+		false
+  );
   
-  
-
-	// wp_enqueue_style(
-	// 	'editor-style',
-	// 	GITHUB_FILE_CONTENTS_URL . '/dist/css/editor-style.min.css',
-	// 	[],
-	// 	GITHUB_FILE_CONTENTS_VERSION
-	// );
+	wp_enqueue_style(
+		'editor-style',
+		GITHUB_FILE_CONTENTS_URL . '/dist/css/editor-style.css',
+		[],
+		GITHUB_FILE_CONTENTS_VERSION
+	);
 
 }
 
@@ -83,19 +77,19 @@ function blocks_editor_scripts() {
  * @return array Filtered categories.
  */
 function blocks_categories( $categories, $post ) {
-  error_log('cats');
-  if ( ! in_array( $post->post_type, array( 'post', 'page' ), true ) ) {
-		return $categories;
-	}
-  error_log('1x');
-	return array_merge(
-		$categories,
-		array(
-			array(
-				'slug'  => 'github-file-contents-blocks',
-        'title' => __( 'GitHub File Contents', 'github-file-contents' ),
-        'icon' => null
-			),
-		)
-	);
+  
+  // if ( ! in_array( $post->post_type, array( 'post', 'page' ), true ) ) {
+	// 	return $categories;
+	// }
+  
+	// return array_merge(
+	// 	$categories,
+	// 	array(
+	// 		array(
+	// 			'slug'  => 'github-file-contents-blocks',
+  //       'title' => __( 'GitHub File Contents', 'github-file-contents' ),
+  //       'icon' => null
+	// 		),
+	// 	)
+	// );
 }

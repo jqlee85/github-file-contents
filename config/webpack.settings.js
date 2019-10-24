@@ -7,12 +7,13 @@ module.exports = {
 		'admin': './assets/js/admin/admin.js',
 		'frontend': './assets/js/frontend/frontend.js',
 		'shared': './assets/js/shared/shared.js',
-		'blocks-editor': './assets/js/admin/blocks/github-file-contents-block/index.js',
-		'blocks': './assets/js/admin/blocks/github-file-contents-block/index.js',
+		'blocks-editor': './assets/js/admin/blocks/editor.js',
+		'blocks': './assets/js/admin/blocks/index.js',
 
 		// CSS files.
 		'admin-style': './assets/css/admin/admin-style.css',
 		'editor-style': './assets/css/frontend/editor-style.css',
+		// 'blocks-editor-style': './assets/js/admin/blocks/editor.css',
 		'shared-style': './assets/css/shared/shared-style.css',
 		'style': './assets/css/frontend/style.css',
 	},

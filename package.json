@@ -13,7 +13,6 @@
     "start": "composer install && npm install && npm run build",
     "wpstart": "npm install && wp-scripts build script.js && npm run build",
     "build": "NODE_ENV=production webpack --config config/webpack.prod.js",
-    "wpbuild": "wp-scripts build script.js && npm run build",
     "dev": "NODE_ENV=development webpack --config config/webpack.dev.js",
     "watch": "NODE_ENV=development webpack --watch --config config/webpack.dev.js",
     "build-release": "npm install && composer install --no-dev -o && npm run build",
