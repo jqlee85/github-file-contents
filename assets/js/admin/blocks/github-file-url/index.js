@@ -68,25 +68,19 @@ export default registerBlockType(
 				if ( 'development' === process.env.REACT_APP_ENV ) console.log( 'development env' );
 				else console.log( 'NOT development env' );
 
+				// TODO: Remove proxyUrl, or pull from a plugin setting
 				const proxyUrl = ( 'development' !== process.env.REACT_APP_ENV ) ? 'https://cors-anywhere.herokuapp.com/' : '';
 				
 				setCodeStatus( 'loading' );
-				console.log( `getting latest file content for:${url}` );
-				console.log( 'url:',url );
 				try {
-					
 					const result = await fetch( proxyUrl + url );
 					const resultJSON = await result.json();
-					console.log( 'success',result );
-					
-					console.log( 'resultJSON',resultJSON );
 					if ( resultJSON.content ) {
 						const decodedContent = window.atob( resultJSON.content );
 						setCodeStatus( 'success' );
 						setAttributes( {code: decodedContent} );
 					} else {
-						setCodeStatus( 'error' );
-						console.error( 'No content found' );
+						throw { message:'No Content Found' };
 					}
 					
 					// setAttributes( {code:`fetched code from ${url} <script>alert('hi');</script>`} );
