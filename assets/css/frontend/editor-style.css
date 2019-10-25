@@ -1,10 +1,6 @@
 /**
   * GithubFileContents - Editor Styles
 */
- 
-.wp-block-github-file-contents-github-file-url {
-  
-}
 
 .github-file-contents-editor-url-input-container {
   align-items: center;
@@ -29,31 +25,3 @@
   width: 100%;
 }
 
-.github-file-contents-editor-code-container code {
-  background-color: rgb(27, 36, 50);
-  box-sizing: border-box;
-  color: rgba(255,255,255,.95);
-  height: auto;
-  margin: 1em 0px;
-  padding: 10px;
-  border-radius: 5px;
-  width: 100%;
-}
-
-/* .github-file-contents-editor-code-container button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-} */
-
-.github-file-contents-editor-code-container button svg {
-  /* margin: 0;
-  position: absolute;
-  top: 50%;
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%); */
-  margin-top: 5px;
-  width: 18px;
-  height: 18px;
-}

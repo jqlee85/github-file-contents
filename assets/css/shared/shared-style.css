@@ -1,3 +1,35 @@
 /**
  * GithubFileContents: Shared Styles
  */
+ .github-file-contents-content-file-url-bar {
+  background: #ccc;
+  color: #333;
+  width: 100%;
+  padding: 4px 10px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.github-file-contents-content-container code {
+  background-color: rgb(27, 36, 50);
+  box-sizing: border-box;
+  color: rgba(255,255,255,.95);
+  height: auto;
+  margin: 1em 0px;
+  padding: 10px;
+  border-radius: 5px;
+  width: 100%;
+}
+
+/* .github-file-contents-editor-code-container button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+} */
+
+.github-file-contents-content-container button svg {
+  margin-top: 5px;
+  width: 18px;
+  height: 18px;
+}

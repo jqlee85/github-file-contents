@@ -6,7 +6,7 @@
 import icon from './icon';
 
 const { __ } = wp.i18n;
-const { Fragment } = wp.element;
+const { Fragment,useState } = wp.element;
 const { 
 	registerBlockType 
 } = wp.blocks;
@@ -16,7 +16,6 @@ const {
 const {
 	IconButton,
 	Tooltip,
-	Button
 } = wp.components;
 
 /**
@@ -54,25 +53,49 @@ export default registerBlockType(
 			const { attributes: { url,code },
 				className, isSelected, setAttributes } = props;
 
-			
-			
 			const onChangeURL = ( url ) => {
 				console.log( 'changeURL',url );
 				setAttributes( {url} );
-
-				// 
-				// setAttributes( {url,code:'<this is the code>'} );
-
+				setFetchedCode( 'setFetchedCode' );
 			};
 
+			const [codeStatus,setCodeStatus] = useState( 'initial' );
 
-			const fetchLatestCode = () => {
+			console.log( 'process.env',process.env );
+
+			const fetchLatestCode = async () => {
+				
+				if ( 'development' === process.env.REACT_APP_ENV ) console.log( 'development env' );
+				else console.log( 'NOT development env' );
+
+				const proxyUrl = ( 'development' !== process.env.REACT_APP_ENV ) ? 'https://cors-anywhere.herokuapp.com/' : '';
+				
+				setCodeStatus( 'loading' );
 				console.log( `getting latest file content for:${url}` );
 				console.log( 'url:',url );
-				setAttributes( {code:`fetched code from ${url} <script>alert('hi');</script>`} );
+				try {
+					
+					const result = await fetch( proxyUrl + url );
+					const resultJSON = await result.json();
+					console.log( 'success',result );
+					
+					console.log( 'resultJSON',resultJSON );
+					if ( resultJSON.content ) {
+						const decodedContent = window.atob( resultJSON.content );
+						setCodeStatus( 'success' );
+						setAttributes( {code: decodedContent} );
+					} else {
+						setCodeStatus( 'error' );
+						console.error( 'No content found' );
+					}
+					
+					// setAttributes( {code:`fetched code from ${url} <script>alert('hi');</script>`} );
+				} catch ( error ) {
+					setCodeStatus( 'error' );
+					console.error( error );
+					
+				}
 			};
-
-			console.log( 'className',className );
 
 			return (
 				<div className={ className }>
@@ -94,7 +117,7 @@ export default registerBlockType(
 										onChange={ onChangeURL }
 									/>
 								</div>
-								<div className="github-file-contents-editor-code-container">
+								<div className="github-file-contents-content-container">
 									<IconButton
 										icon={icon}
 										label={ __( 'Fetch Latest Code', 'github-file-contents' ) }
@@ -103,9 +126,11 @@ export default registerBlockType(
 									>
 										{__( 'Fetch Latest Code', 'github-file-contents' ) }
 									</IconButton>
-									<code>
-										{code || __( ' Add URL and Fetch Code to Populate', 'github-file-contents' ) }
-									</code>
+									<div className="github-file-contents-code-container github-file-contents-editor-code-container">
+										<code>
+											{code || __( ' Add URL and Fetch Code to Populate', 'github-file-contents' ) }
+										</code>
+									</div>
 								</div>
 								<IconButton
 									icon="editor-break"
@@ -124,9 +149,11 @@ export default registerBlockType(
 							<div className="github-file-contents-content-file-url-bar">
 								<a href={url}>{url}</a>
 							</div>
-							<code>
-								{code || __( ' Add URL and Fetch Code to Populate', 'github-file-contents' ) }
-							</code>
+							<div className="github-file-contents-code-container">
+								<code>
+									{code || __( ' Add URL and Fetch Code to Populate', 'github-file-contents' ) }
+								</code>
+							</div>
 						</div>
 
 					)}
@@ -137,16 +164,19 @@ export default registerBlockType(
 		save: props => {
 			const { attributes: { url,code } } = props;
 
-			return (
+
+			return code ? 
 				<div className="github-file-contents-content-container">
 					<div className="github-file-contents-content-file-url-bar">
 						<a href={url}>{url}</a>
 					</div>
-					<code>
-						{code}
-					</code>
+					<div className="github-file-contents-code-container">
+						<code>
+							{code}
+						</code>
+					</div>
 				</div>
-			);
+				: null;
 		},
 	},
 );

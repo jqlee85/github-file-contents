@@ -1,1 +1,1 @@
-console.log( 'editor.js ran inside block' );
+// console.log( 'editor.js ran inside block' );
