@@ -2,7 +2,8 @@
  * GitHub File URL Block
  * 
  */
-
+import Prism from 'prismjs';
+import '../css/prism.css';
 import icon from './icon';
 
 const { __ } = wp.i18n;
@@ -56,7 +57,6 @@ export default registerBlockType(
 			const onChangeURL = ( url ) => {
 				console.log( 'changeURL',url );
 				setAttributes( {url} );
-				setFetchedCode( 'setFetchedCode' );
 			};
 
 			const [codeStatus,setCodeStatus] = useState( 'initial' );
@@ -78,7 +78,7 @@ export default registerBlockType(
 					if ( resultJSON.content ) {
 						const decodedContent = window.atob( resultJSON.content );
 						setCodeStatus( 'success' );
-						setAttributes( {code: decodedContent} );
+						setAttributes( {code: Prism.highlight( decodedContent, Prism.languages.javascript, 'javascript' )} );
 					} else {
 						throw { message:'No Content Found' };
 					}
@@ -121,9 +121,7 @@ export default registerBlockType(
 										{__( 'Fetch Latest Code', 'github-file-contents' ) }
 									</IconButton>
 									<div className="github-file-contents-code-container github-file-contents-editor-code-container">
-										<code>
-											{code || __( ' Add URL and Fetch Code to Populate', 'github-file-contents' ) }
-										</code>
+										<code className="language-javascript" dangerouslySetInnerHTML={{ __html: code }}/>
 									</div>
 								</div>
 								<IconButton
@@ -144,9 +142,10 @@ export default registerBlockType(
 								<a href={url}>{url}</a>
 							</div>
 							<div className="github-file-contents-code-container">
-								<code>
+								<code className="language-javascript" dangerouslySetInnerHTML={{ __html: code }}/>
+								{/* <code>
 									{code || __( ' Add URL and Fetch Code to Populate', 'github-file-contents' ) }
-								</code>
+								</code> */}
 							</div>
 						</div>
 
@@ -165,9 +164,7 @@ export default registerBlockType(
 						<a href={url}>{url}</a>
 					</div>
 					<div className="github-file-contents-code-container">
-						<code>
-							{code}
-						</code>
+						<code className="language-javascript" dangerouslySetInnerHTML={{ __html: code }}/>
 					</div>
 				</div>
 				: null;
