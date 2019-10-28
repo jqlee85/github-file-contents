@@ -18,18 +18,18 @@
 }
 
 .github-file-contents-code-container {
-  background-color: rgb(27, 36, 50);
+  background-color: rgb(42, 43, 45);
   box-sizing: border-box;
   color: rgba(255,255,255,.95);
   height: auto;
   margin: 1em 0px;
-  padding: 10px;
   border-radius: 5px;
   width: 100%;
 }
 
 .github-file-contents-code-container code {
-  line-height: 1.6;
+  line-height: 1.1;
+  font-size: .7em;
 }
 
 /* .github-file-contents-editor-code-container button {

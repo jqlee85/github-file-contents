@@ -39,6 +39,13 @@ function blocks_scripts() {
 		array( 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components' ),
 		GITHUB_FILE_CONTENTS_VERSION,
 		true
+	);
+
+	wp_enqueue_style(
+		'prism-theme-tomorrow',
+		GITHUB_FILE_CONTENTS_URL . 'dist/css/prism-theme-tomorrow.css',
+		[],
+		GITHUB_FILE_CONTENTS_VERSION
   );
 
 }
@@ -59,12 +66,12 @@ function blocks_editor_scripts() {
 		false
   );
   
-	wp_enqueue_style(
-		'editor-style',
-		GITHUB_FILE_CONTENTS_URL . '/dist/css/editor-style.css',
-		[],
-		GITHUB_FILE_CONTENTS_VERSION
-	);
+	// wp_enqueue_style(
+	// 	'editor-style',
+	// 	GITHUB_FILE_CONTENTS_URL . '/dist/css/editor-style.css',
+	// 	[],
+	// 	GITHUB_FILE_CONTENTS_VERSION
+	// );
 
 }
 

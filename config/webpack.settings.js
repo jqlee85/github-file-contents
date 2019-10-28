@@ -16,6 +16,10 @@ module.exports = {
 		// 'blocks-editor-style': './assets/js/admin/blocks/editor.css',
 		'shared-style': './assets/css/shared/shared-style.css',
 		'style': './assets/css/frontend/style.css',
+		// TODO pull style from prism package (figure out why the laoder fails on it)
+		// 'prism-theme-tomorrow': './node_modules/prismjs/themes/prism-tomorrow.css',
+		'prism-theme-tomorrow': './assets/css/shared/prism-tomorrow.css',
+		
 	},
 	filename: {
 		js: 'js/[name].js',

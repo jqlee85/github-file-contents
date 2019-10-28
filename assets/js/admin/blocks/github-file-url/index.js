@@ -3,8 +3,9 @@
  * 
  */
 import Prism from 'prismjs';
-import '../css/prism.css';
 import icon from './icon';
+// import 'prismjs/themes/prism-tomorrow.css';
+
 
 const { __ } = wp.i18n;
 const { Fragment,useState } = wp.element;
@@ -65,18 +66,19 @@ export default registerBlockType(
 
 			const fetchLatestCode = async () => {
 				
-				if ( 'development' === process.env.REACT_APP_ENV ) console.log( 'development env' );
-				else console.log( 'NOT development env' );
-
-				// TODO: Remove proxyUrl, or pull from a plugin setting
-				const proxyUrl = ( 'development' !== process.env.REACT_APP_ENV ) ? 'https://cors-anywhere.herokuapp.com/' : '';
+				// TODO: Try without CORS first, and if CORS error, retry with proxyUrl
+				const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
 				
 				setCodeStatus( 'loading' );
 				try {
 					const result = await fetch( proxyUrl + url );
 					const resultJSON = await result.json();
+					console.log( 'resultJSON',resultJSON );
 					if ( resultJSON.content ) {
 						const decodedContent = window.atob( resultJSON.content );
+						
+						const codeLanguage = 'javascript';
+						// loadLanguages( [codeLanguage] );
 						setCodeStatus( 'success' );
 						setAttributes( {code: Prism.highlight( decodedContent, Prism.languages.javascript, 'javascript' )} );
 					} else {
@@ -121,7 +123,7 @@ export default registerBlockType(
 										{__( 'Fetch Latest Code', 'github-file-contents' ) }
 									</IconButton>
 									<div className="github-file-contents-code-container github-file-contents-editor-code-container">
-										<code className="language-javascript" dangerouslySetInnerHTML={{ __html: code }}/>
+										<pre><code className="language-javascript" dangerouslySetInnerHTML={{ __html: code }}/></pre>
 									</div>
 								</div>
 								<IconButton
@@ -142,7 +144,7 @@ export default registerBlockType(
 								<a href={url}>{url}</a>
 							</div>
 							<div className="github-file-contents-code-container">
-								<code className="language-javascript" dangerouslySetInnerHTML={{ __html: code }}/>
+								<pre><code className="language-javascript" dangerouslySetInnerHTML={{ __html: code }}/></pre>
 								{/* <code>
 									{code || __( ' Add URL and Fetch Code to Populate', 'github-file-contents' ) }
 								</code> */}
@@ -164,7 +166,7 @@ export default registerBlockType(
 						<a href={url}>{url}</a>
 					</div>
 					<div className="github-file-contents-code-container">
-						<code className="language-javascript" dangerouslySetInnerHTML={{ __html: code }}/>
+						<pre><code className="language-javascript" dangerouslySetInnerHTML={{ __html: code }}/></pre>
 					</div>
 				</div>
 				: null;
